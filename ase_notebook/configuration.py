@@ -135,7 +135,7 @@ class ViewConfig:
     )
     element_radii: str = attr.ib(
         default="ase",
-        validator=in_(("ase", "vesta")),
+        validator=in_(("ase", "vesta", "custom")),
         metadata={"help": "Element to color mapping to use."},
     )
     radii_scale: float = attr.ib(
