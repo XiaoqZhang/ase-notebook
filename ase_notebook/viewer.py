@@ -44,7 +44,10 @@ class AseView:
             self._config = config
         else:
             self._config = ViewConfig(**kwargs)
-
+        if "radii" in kwargs.keys():
+            print("radii defined")
+            self.radii = kwargs["radii"]
+        
     def __copy__(self):
         """Return a copy of this instance."""
         return self.__class__(copy(self._config))
@@ -184,9 +187,14 @@ class AseView:
 
     def get_atom_radii(self, atoms):
         """Return mapping of atom index to sphere radii."""
-        element_radii = self.get_element_radii()
-        radii = np.array([element_radii[z] for z in atoms.numbers])
-        radii *= self.config.radii_scale
+        if self.config.element_radii == "custom":
+            print("yes")
+            radii = self.radii
+        else:
+            print("get_element_radii")
+            element_radii = self.get_element_radii()
+            radii = np.array([element_radii[z] for z in atoms.numbers])
+            radii *= self.config.radii_scale
         return radii
 
     def get_atom_labels(self, atoms):
